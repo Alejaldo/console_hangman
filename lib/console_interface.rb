@@ -12,19 +12,23 @@ class ConsoleInterface
     puts <<~END
       Слово: #{word_to_show}
       #{figure}
-      Ошибки (#{@game.errors_made}): #{errors_to_show}
+      #{show_errors}
       У Вас осталось ошибок: #{@game.errors_allowed}
     END
 
     if @game.won?
-      puts "Поздравляем, Вы выиграли!"
+      puts "Поздравляем, Вы выиграли!".colorize(:green)
     elsif @game.lost?
-      puts "Вы проиграли, загаданное слово: #{@game.word}"
+      puts "Вы проиграли, загаданное слово: ".colorize(:red) + @game.word.colorize(:magenta)
     end
   end
 
   def figure
-    FIGURES[@game.errors_made]
+    FIGURES[@game.errors_made].colorize(:yellow)
+  end
+
+  def show_errors
+    "Ошибки (#{@game.errors_made}): #{errors_to_show}".colorize(:red)
   end
 
   def word_to_show
